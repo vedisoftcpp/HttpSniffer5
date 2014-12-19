@@ -1,0 +1,10 @@
+#include "urlejector.h"
+
+namespace HttpSniffer
+{
+
+UrlEjector::UrlEjector()
+{
+}
+
+}

@@ -11,6 +11,7 @@ class IpPacketReassembler
 {
 public:
     IpPacketReassembler();
+    ~IpPacketReassembler();
 
     IpPacket reassemble(const IpPacket& ip_packet);
 

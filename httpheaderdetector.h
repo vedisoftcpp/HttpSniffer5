@@ -12,11 +12,13 @@ class HttpHeaderDetector : public TcpStreamDataHandler
 {
 public:
     HttpHeaderDetector();
+    ~HttpHeaderDetector();
 
     void process(const vector<uint8_t>& data);
 
 private:
     UrlEjector _url_ejector;
+    string _data;
 };
 
 }

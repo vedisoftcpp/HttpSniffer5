@@ -7,6 +7,11 @@ TcpStreamSwitch::TcpStreamSwitch()
 {
 }
 
+TcpStreamSwitch::~TcpStreamSwitch()
+{
+
+}
+
 void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
 {
     TcpDatagram tcp_datagram(ip_packet);
@@ -17,6 +22,8 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
     }
 
     TcpStreamId tcp_stream_id(tcp_datagram);
+
+    std::cout << _data_handlers.size() << "\n";
 
     if (tcp_datagram.header.fin_flag)
     {

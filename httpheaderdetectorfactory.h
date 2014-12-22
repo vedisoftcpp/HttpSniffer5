@@ -11,6 +11,7 @@ class HttpHeaderDetectorFactory : public TcpStreamDataHandlerFactory
 {
 public:
     HttpHeaderDetectorFactory();
+    ~HttpHeaderDetectorFactory();
 
     shared_ptr<TcpStreamDataHandler> get_data_handler();
 };

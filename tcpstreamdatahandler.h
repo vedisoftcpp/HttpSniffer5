@@ -10,6 +10,7 @@ class TcpStreamDataHandler
 {
 public:
     TcpStreamDataHandler();
+    virtual ~TcpStreamDataHandler();
 
     virtual void process(const vector<uint8_t>& data) = 0;
 };

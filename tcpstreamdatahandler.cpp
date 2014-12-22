@@ -7,4 +7,9 @@ TcpStreamDataHandler::TcpStreamDataHandler()
 {
 }
 
+TcpStreamDataHandler::~TcpStreamDataHandler()
+{
+
+}
+
 }

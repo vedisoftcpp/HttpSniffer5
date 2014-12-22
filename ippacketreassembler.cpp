@@ -7,6 +7,11 @@ IpPacketReassembler::IpPacketReassembler()
 {
 }
 
+IpPacketReassembler::~IpPacketReassembler()
+{
+
+}
+
 bool is_ip_packet_fragmented(const IpPacket& ip_packet)
 {
     if (ip_packet.header.dont_fragment)

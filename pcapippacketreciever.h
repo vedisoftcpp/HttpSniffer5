@@ -11,6 +11,7 @@ class PcapIpPacketReciever : public IpPacketReciever
 {
 public:
     PcapIpPacketReciever();
+    ~PcapIpPacketReciever();
 
     void init();
     IpPacket get_ip_packet();

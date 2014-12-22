@@ -7,6 +7,11 @@ PcapIpPacketReciever::PcapIpPacketReciever()
 {
 }
 
+PcapIpPacketReciever::~PcapIpPacketReciever()
+{
+
+}
+
 void PcapIpPacketReciever::init()
 {
     pcap_if_t *alldevs;
@@ -19,7 +24,9 @@ void PcapIpPacketReciever::init()
     struct bpf_program fcode;
 
     /* Retrieve the device list */
-    if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL, &alldevs, errbuf) == -1)
+
+    //if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL, &alldevs, errbuf) == -1)
+    if (pcap_findalldevs(&alldevs, errbuf) == -1)
     {
         fprintf(stderr,"Error in pcap_findalldevs: %s\n", errbuf);
         exit(1);
@@ -42,7 +49,8 @@ void PcapIpPacketReciever::init()
     }
 
     printf("Enter the interface number (1-%d):",i);
-    scanf_s("%d", &inum);
+    //scanf_s("%d", &inum);
+    scanf("%d", &inum);
 
     if(inum < 1 || inum > i)
     {
@@ -56,14 +64,15 @@ void PcapIpPacketReciever::init()
     for(d=alldevs, i=0; i< inum-1 ;d=d->next, i++);
 
     /* Open the adapter */
-    if ( (_adhandle= pcap_open(d->name,  // name of the device
-                              65536,     // portion of the packet to capture.
-                              // 65536 grants that the whole packet will be captured on all the MACs.
-                              PCAP_OPENFLAG_PROMISCUOUS,         // promiscuous mode
-                              1000,      // read timeout
-                              NULL,      // remote authentication
-                              errbuf     // error buffer
-                              ) ) == NULL)
+    //if ( (_adhandle= pcap_open(d->name,  // name of the device
+//                              65536,     // portion of the packet to capture.
+//                              // 65536 grants that the whole packet will be captured on all the MACs.
+//                              PCAP_OPENFLAG_PROMISCUOUS,         // promiscuous mode
+//                              1000,      // read timeout
+//                              NULL,      // remote authentication
+//                              errbuf     // error buffer
+//                              ) ) == NULL)
+    if ( (_adhandle= pcap_open_live(d->name, 65536, 1, 1000, errbuf)) == NULL)
     {
         fprintf(stderr,"\nUnable to open the adapter. %s is not supported by WinPcap\n");
         /* Free the device list */
@@ -80,13 +89,27 @@ void PcapIpPacketReciever::init()
         return;
     }
 
-    if(d->addresses != NULL)
-        /* Retrieve the mask of the first address of the interface */
-        netmask=((struct sockaddr_in *)(d->addresses->netmask))->sin_addr.S_un.S_addr;
-    else
-        /* If the interface is without addresses we suppose to be in a C class network */
-        netmask=0xffffff;
+    bpf_u_int32 mask;		/* The netmask of our sniffing device */
+    bpf_u_int32 net;		/* The IP of our sniffing device */
+    if (pcap_lookupnet(d->name, &net, &mask, errbuf) == -1) {
+             fprintf(stderr, "Can't get netmask for device %s\n", d->name);
+             net = 0;
+             mask = 0;
+         }
+//    std::cout << "mask: " << mask << "\n";
 
+//    if(d->addresses != NULL)
+//    {
+//        /* Retrieve the mask of the first address of the interface */
+//        //netmask=((struct sockaddr_in *)(d->addresses->netmask))->sin_addr.S_un.S_addr;
+//        std::cout << "addr: " << d->addresses->netmask << "\n";
+//        netmask=((struct sockaddr_in *)(d->addresses->netmask))->sin_addr.s_addr;
+//    }
+//    else
+//        /* If the interface is without addresses we suppose to be in a C class network */
+//        netmask=0xffffff;
+
+    netmask = mask;
 
     //compile the filter
     if (pcap_compile(_adhandle, &fcode, packet_filter, 1, netmask) <0 )

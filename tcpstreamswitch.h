@@ -9,12 +9,10 @@
 namespace HttpSniffer
 {
 
-//-----------------------------------------------
-
 class TcpStreamId
 {
 public:
-    friend struct std::hash<TcpStreamId>;
+    friend struct std::tr1::hash<TcpStreamId>;
 
     TcpStreamId(uint32_t _src_addr, uint32_t _dst_addr, uint16_t _src_port, uint16_t _dst_port) :
         src_addr(_src_addr),
@@ -59,13 +57,15 @@ private:
     uint16_t dst_port;
 };
 
-//-----------------------------------------------
-
 }
 
 //-----------------------------------------------
 
+
+
 namespace std
+{
+namespace tr1
 {
 
 using HttpSniffer::TcpStreamId;
@@ -75,7 +75,7 @@ struct hash<TcpStreamId>
 {
     std::size_t operator()(const TcpStreamId& id) const
     {
-        using std::hash;
+        using std::tr1::hash;
 
         size_t h1 = hash<uint32_t>()(id.src_addr);
         size_t h2 = hash<uint32_t>()(id.dst_addr);
@@ -86,9 +86,10 @@ struct hash<TcpStreamId>
     }
 };
 
-//-----------------------------------------------
-
 }
+}
+
+
 
 //-----------------------------------------------
 
@@ -99,10 +100,11 @@ class TcpStreamSwitch
 {
 public:
     TcpStreamSwitch();
+    ~TcpStreamSwitch();
 
-    void set_tcp_stream_handler_factory(TcpStreamDataHandlerFactory* data_handler_factory)
+    void set_tcp_stream_handler_factory(TcpStreamDataHandlerFactory& data_handler_factory)
     {
-        _data_handler_factory = data_handler_factory;
+        _data_handler_factory = &data_handler_factory;
     }
 
     void process_ip_packet(const IpPacket& ip_packet);

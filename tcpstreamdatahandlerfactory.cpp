@@ -7,4 +7,9 @@ TcpStreamDataHandlerFactory::TcpStreamDataHandlerFactory()
 {
 }
 
+TcpStreamDataHandlerFactory::~TcpStreamDataHandlerFactory()
+{
+
+}
+
 }

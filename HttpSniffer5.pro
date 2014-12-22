@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG += no_lflags_merge
+#CONFIG += no_lflags_merge
 
 SOURCES += main.cpp \
     ippacketreassembler.cpp \
@@ -30,9 +30,10 @@ HEADERS += \
     pcapippacketreciever.h \
     urlejector.h
 
-win32 {
-INCLUDEPATH += $$PWD/../../Local/Include
-LIBS += -L$$PWD/../../Local/Lib/ -lwpcap
-}
-INCLUDEPATH += C:\Users\denism\Local\Include
+#win32 {
+#INCLUDEPATH += $$PWD/../../Local/Include
+#LIBS += -L$$PWD/../../Local/Lib/ -lwpcap
+#}
+#INCLUDEPATH += C:\Users\denism\Local\Include
 
+LIBS += -lpcap

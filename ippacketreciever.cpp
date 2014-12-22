@@ -7,6 +7,11 @@ IpPacketReciever::IpPacketReciever()
 {
 }
 
+IpPacketReciever::~IpPacketReciever()
+{
+
+}
+
 void IpPacketReciever::init()
 {
 
@@ -26,7 +31,7 @@ void IpPacketReciever::run()
         {
 
         }
-        _tcp_stream_switch.process_ip_packet(ip_packet);
+        _tcp_stream_switch->process_ip_packet(ip_packet);
     }
 }
 

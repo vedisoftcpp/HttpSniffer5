@@ -10,6 +10,9 @@ class UrlEjector
 {
 public:
     UrlEjector();
+    ~UrlEjector();
+
+    void eject(string& header);
 };
 
 }

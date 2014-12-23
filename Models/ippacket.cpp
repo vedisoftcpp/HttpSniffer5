@@ -4,7 +4,21 @@ namespace HttpSniffer
 {
 
 
-IpPacketHeader::IpPacketHeader()
+IpPacketHeader::IpPacketHeader() :
+    version(0),
+    ihl(0),
+    dscp(0),
+    ecn(0),
+    total_length(0),
+    id(0),
+    dont_fragment(true),
+    more_fragments(false),
+    fragment_offset(0),
+    ttl(0),
+    protocol(0),
+    crc(0),
+    src_addr(0),
+    dst_addr(0)
 {
 
 }

@@ -1,4 +1,5 @@
 #include "ippacketreassembler.h"
+#include "Exceptions/ippacketreassemblerexcetions.h"
 
 namespace HttpSniffer
 {
@@ -42,6 +43,10 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
     if ( !is_ip_packet_fragmented(ip_packet) )
         return ip_packet;
 
+    // broken ip packet
+//    if (!ip_packet.header.more_fragments && (ip_packet.header.fragment_offset != 0))
+//        throw broken_ip_packet_exception;
+
     // have all ip-packets was recived
     unordered_map<uint32_t, vector<IpPacket> >::iterator it = _fragmented_packets.find(ip_packet.header.id);
     if (it == _fragmented_packets.end())
@@ -50,9 +55,7 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
         vector<IpPacket> fragmented_packets;
         fragmented_packets.push_back(ip_packet);
         _fragmented_packets[ip_packet.header.id] = fragmented_packets;
-        //throw IpPacketIsFragmentedException();
-        //std::cout << "1\n";
-        throw 1;
+        throw there_arent_another_ip_packets_exception;
     }
     else
     {
@@ -71,9 +74,7 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
         if (first_packet.header.fragment_offset)
         {
             // there isn't first packet
-            //throw ThereIsNotFirstIpPacketException();
-            //std::cout << "2\n";
-            throw 1;
+            throw there_isnt_ip_packet_with_0_fo_exception;
         }
 
         bool more_fragments = true;
@@ -86,9 +87,7 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
             if (_ip_packet.header.fragment_offset != data_length/8)
             {
                 // not all packets was recived
-                //throw NotAllIpPacketsWasRecivedException;
-                //std::cout << "3\n";
-                throw 1;
+                throw not_all_ip_packets_were_recieved_exception;
             }
 
             data_length += _ip_packet.data.size();
@@ -97,20 +96,20 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
         if (more_fragments)
         {
             // there isn't last packet
-            //throw ThereIsNotLastIpPacketException;
-            //std::cout << "4\n";
-            throw 1;
+            throw there_isnt_last_ip_packet_exception;
         }
 
         // now we can merge fragmented packets
 
         // first packet header length + common data length
         first_packet.header.total_length = first_packet.header.size() + data_length;
+        first_packet.header.more_fragments = false;
+        first_packet.header.dont_fragment = true;
 
         for (it = fragmented_packets.begin()+1; it != fragmented_packets.end(); ++it)
         {
             IpPacket& _ip_packet = *it;
-            first_packet.data.insert(first_packet.data.begin(),
+            first_packet.data.insert(first_packet.data.end(),
                                      _ip_packet.data.begin(),
                                      _ip_packet.data.end());
         }

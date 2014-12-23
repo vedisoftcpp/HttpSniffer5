@@ -51,6 +51,35 @@ struct IpPacketHeader
     vector<uint8_t> options;
 
     size_t size() const { return ihl * 4; }
+
+    bool operator== (const IpPacketHeader& header) const
+    {
+        if (this == &header) return true;
+        if (version != header.version) return false;
+        if (ihl != header.ihl) return false;
+        if (dscp != header.dscp) return false;
+        if (ecn != header.ecn) return false;
+        if (total_length != header.total_length) return false;
+        if (id != header.id) return false;
+        if (dont_fragment != header.dont_fragment) return false;
+        if (more_fragments != header.more_fragments) return false;
+        if (fragment_offset != header.fragment_offset) return false;
+        if (ttl != header.ttl) return false;
+        if (protocol != header.protocol) return false;
+        if (crc != header.crc) return false;
+        if (src_addr != header.src_addr) return false;
+        if (dst_addr != header.dst_addr) return false;
+        if (options != header.options) return false;
+        return true;
+    }
+
+    bool operator!= (const IpPacketHeader& header) const
+    {
+        if (*this == header)
+            return false;
+        else
+            return true;
+    }
 };
 
 struct IpPacket
@@ -60,6 +89,22 @@ struct IpPacket
 
     IpPacketHeader header;
     vector<uint8_t> data;
+
+    bool operator== (const IpPacket& ip_packet) const
+    {
+        if (this == &ip_packet) return true;
+        if (header != ip_packet.header) return false;
+        if (data != ip_packet.data) return false;
+        return true;
+    }
+
+    bool operator!= (const IpPacket& ip_packet) const
+    {
+        if (*this == ip_packet)
+            return false;
+        else
+            return true;
+    }
 };
 
 }

@@ -1,0 +1,12 @@
+#include "ippacketreassemblerexcetions.h"
+
+namespace HttpSniffer
+{
+
+BrokenIpPacketException broken_ip_packet_exception;
+ThereAreNotAnotherIpPacketsException there_arent_another_ip_packets_exception;
+ThereIsNotIpPacketWithZeroFragmentOffsetException there_isnt_ip_packet_with_0_fo_exception;
+NotAllIpPacketWereRecievedException not_all_ip_packets_were_recieved_exception;
+ThereIsNotLastIpPacketException there_isnt_last_ip_packet_exception;
+
+}

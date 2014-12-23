@@ -23,7 +23,7 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
 
     TcpStreamId tcp_stream_id(tcp_datagram);
 
-    std::cout << _data_handlers.size() << "\n";
+    //std::cout << _data_handlers.size() << "\n";
 
     if (tcp_datagram.header.fin_flag)
     {
@@ -43,7 +43,7 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
     if (it != _data_handlers.end())
     {
         TcpStreamDataHandler& data_handler = *(it->second);
-        data_handler.process(tcp_datagram.data);
+        data_handler.process(tcp_datagram);
     }
 }
 

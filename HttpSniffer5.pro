@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     Models/tcpdatagram.cpp \
     pcapippacketreciever.cpp \
     urlejector.cpp \
-    Exceptions/ippacketreassemblerexcetions.cpp
+    Exceptions/ippacketreassemblerexcetions.cpp \
+    tcpdatagrambuffer.cpp
 
 HEADERS += \
     ippacketreassembler.h \
@@ -30,7 +31,8 @@ HEADERS += \
     Models/tcpdatagram.h \
     pcapippacketreciever.h \
     urlejector.h \
-    Exceptions/ippacketreassemblerexcetions.h
+    Exceptions/ippacketreassemblerexcetions.h \
+    tcpdatagrambuffer.h
 
 #win32 {
 #INCLUDEPATH += $$PWD/../../Local/Include

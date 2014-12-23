@@ -2,6 +2,7 @@
 #define TCPSTREAMDATAHANDLER_H
 
 #include "headers.h"
+#include "tcpdatagrambuffer.h"
 
 namespace HttpSniffer
 {
@@ -12,7 +13,11 @@ public:
     TcpStreamDataHandler();
     virtual ~TcpStreamDataHandler();
 
-    virtual void process(const vector<uint8_t>& data) = 0;
+    virtual void process_data(const vector<uint8_t>& data) = 0;
+    void process(const TcpDatagram& tcp_datagram);
+
+private:
+    TcpDatagramBuffer _tcp_datagram_buffer;
 };
 
 }

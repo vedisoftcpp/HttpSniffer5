@@ -7,6 +7,7 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <deque>
 
 //#ifdef __unix__
 
@@ -48,6 +49,7 @@ using std::vector;
 using std::tr1::unordered_map;
 using std::string;
 using std::sort;
+using std::deque;
 
 class TcpStreamId;
 struct IpPacket;

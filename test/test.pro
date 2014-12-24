@@ -11,11 +11,13 @@ SOURCES += main.cpp \
     ../tcpstreamswitch.cpp \
     ../Models/tcpdatagram.cpp \
     ../tcpstreamdatahandlerfactory.cpp \
-    ../tcpstreamdatahandler.cpp
+    ../tcpstreamdatahandler.cpp \
+    ../tcpdatagrambuffer.cpp
 
 HEADERS += \
     ip_packet_reassembler_test.h \
-    tcp_stream_switch_test.h
+    tcp_stream_switch_test.h \
+    tcp_datagram_buffer_test.h
 
 LIBS += -lpthread
 LIBS += -lpcap

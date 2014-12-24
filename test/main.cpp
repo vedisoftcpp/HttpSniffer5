@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "ip_packet_reassembler_test.h"
 #include "tcp_stream_switch_test.h"
+#include "tcp_datagram_buffer_test.h"
 
 int main(int argc, char **argv)
 {

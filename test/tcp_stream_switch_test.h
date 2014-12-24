@@ -22,7 +22,7 @@ public:
 
     }
 
-    void process(const vector<uint8_t>& data)
+    void process_data(const vector<uint8_t>& data)
     {
 
     }

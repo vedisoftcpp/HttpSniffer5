@@ -3,7 +3,8 @@
 namespace HttpSniffer
 {
 
-HttpHeaderDetector::HttpHeaderDetector()
+HttpHeaderDetector::HttpHeaderDetector() :
+    TcpStreamDataHandler()
 {
 }
 

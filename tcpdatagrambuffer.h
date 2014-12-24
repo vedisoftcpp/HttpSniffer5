@@ -12,11 +12,13 @@ class TcpDatagramBuffer
 public:
     TcpDatagramBuffer();
 
-    void push_packet(const TcpDatagram& tcp_datagram);
+    void push_datagram(const TcpDatagram& tcp_datagram);
     vector<uint8_t> pop_data();
 
+    void set_seq(uint32_t seq) { _current_seq = seq; }
+
 private:
-    vector<TcpDatagram> _buffer;
+    deque<TcpDatagram> _buffer;
     uint32_t _current_seq;
 };
 

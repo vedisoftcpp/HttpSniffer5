@@ -1,9 +1,12 @@
-TEMPLATE = app
-CONFIG += console
-CONFIG -= app_bundle
+#TEMPLATE = app
+#CONFIG += console
+#CONFIG -= app_bundle
 #CONFIG += no_lflags_merge
 
-SOURCES += main.cpp \
+TEMPLATE = lib
+CONFIG += staticlib
+
+SOURCES += \ #main.cpp \
     ippacketreassembler.cpp \
     ippacketreciever.cpp \
     tcpstreamswitch.cpp \

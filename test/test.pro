@@ -12,12 +12,14 @@ SOURCES += main.cpp \
     ../Models/tcpdatagram.cpp \
     ../tcpstreamdatahandlerfactory.cpp \
     ../tcpstreamdatahandler.cpp \
-    ../tcpdatagrambuffer.cpp
+    ../tcpdatagrambuffer.cpp \
+    ../urlejector.cpp
 
 HEADERS += \
     ip_packet_reassembler_test.h \
     tcp_stream_switch_test.h \
-    tcp_datagram_buffer_test.h
+    tcp_datagram_buffer_test.h \
+    url_ejector_test.h
 
 LIBS += -lpthread
 LIBS += -lpcap

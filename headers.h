@@ -1,13 +1,12 @@
-#ifndef HEADERS_H
-#define HEADERS_H
+#ifndef HTTP_SNIFFER_HEADERS_H
+#define HTTP_SNIFFER_HEADERS_H
 
-#include <tr1/memory>
 #include <vector>
-#include <tr1/unordered_map>
 #include <string>
 #include <algorithm>
 #include <iostream>
 #include <deque>
+#include <map>
 
 //#ifdef __unix__
 
@@ -40,16 +39,16 @@ typedef u_int16_t uint16_t;
 typedef u_int32_t uint32_t;
 typedef u_int64_t uint64_t;
 
+//#include <tr1/memory>
+
 namespace HttpSniffer
 {
-
-using std::tr1::shared_ptr;
-//using std::tr1::make_shared;
+//using std::tr1::shared_ptr;
 using std::vector;
-using std::tr1::unordered_map;
 using std::string;
 using std::sort;
 using std::deque;
+using std::map;
 
 class TcpStreamId;
 struct IpPacket;

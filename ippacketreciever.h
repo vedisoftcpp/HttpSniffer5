@@ -16,6 +16,7 @@ public:
     virtual ~IpPacketReciever();
 
     void run();
+    void work();
     virtual void init();
     virtual IpPacket get_ip_packet() = 0;
 

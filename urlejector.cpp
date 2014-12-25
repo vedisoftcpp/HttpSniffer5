@@ -16,14 +16,13 @@ void UrlEjector::eject(string& header)
 {
     for (size_t pos = header.find("Host: ");
          pos != string::npos;
-         pos = header.find("Host: ", pos+6))
+         pos = header.find("Host: ", pos))
     {
         size_t eol = header.find("\r\n", pos);
         if (eol == string::npos)
             return;
         string url(header.begin()+pos+6, header.begin()+eol);
-        //buffer.push_back(url);
-        std::cout << url << "\n";
+        urls.push_back(url);
         header.erase(header.begin(), header.begin()+eol);
     }
 
@@ -35,7 +34,6 @@ void UrlEjector::eject(string& header)
 //        if (eol == string::npos)
 //            return;
 //        string url(header.begin()+pos+4, header.begin()+eol);
-////        std::cout << url << "\n";
 
 //        size_t pos1 = header.find("Host: ", pos);
 //        if (pos1 == string::npos)
@@ -43,8 +41,6 @@ void UrlEjector::eject(string& header)
 //        eol = header.find("\r\n", pos1);
 //        if (eol == string::npos)
 //            return;
-
-//        //buffer.push_back(url);
 
 //        string host(header.begin()+pos1+6, header.begin()+eol);
 

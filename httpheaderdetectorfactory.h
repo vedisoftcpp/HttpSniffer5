@@ -10,10 +10,13 @@ namespace HttpSniffer
 class HttpHeaderDetectorFactory : public TcpStreamDataHandlerFactory
 {
 public:
-    HttpHeaderDetectorFactory();
+    HttpHeaderDetectorFactory(vector<string>& urls);
     ~HttpHeaderDetectorFactory();
 
-    shared_ptr<TcpStreamDataHandler> get_data_handler();
+    TcpStreamDataHandler* get_data_handler();
+
+private:
+    vector<string>* _urls;
 };
 
 }

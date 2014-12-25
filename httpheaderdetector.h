@@ -11,7 +11,7 @@ namespace HttpSniffer
 class HttpHeaderDetector : public TcpStreamDataHandler
 {
 public:
-    HttpHeaderDetector();
+    HttpHeaderDetector(vector<string>& urls);
     ~HttpHeaderDetector();
 
     void process_data(const vector<uint8_t>& data);
@@ -19,6 +19,7 @@ public:
 private:
     UrlEjector _url_ejector;
     string _data;
+    vector<string>* _urls;
 };
 
 }

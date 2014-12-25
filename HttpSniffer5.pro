@@ -1,7 +1,6 @@
 #TEMPLATE = app
 #CONFIG += console
 #CONFIG -= app_bundle
-#CONFIG += no_lflags_merge
 
 TEMPLATE = lib
 CONFIG += staticlib
@@ -44,3 +43,8 @@ HEADERS += \
 #INCLUDEPATH += C:\Users\denism\Local\Include
 
 LIBS += -lpcap
+
+#system("cp /home/vedisoft/local/include/http_sniffer")
+
+#system("mkdir /home/vedisoft/local/include/http_sniffer")
+#system("for file in $$HEADERS; do cp "$file" /home/vedisoft/local/include/http_sniffer ; done")

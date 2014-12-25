@@ -13,7 +13,7 @@ public:
     TcpStreamDataHandlerFactory();
     virtual ~TcpStreamDataHandlerFactory();
 
-    virtual shared_ptr<TcpStreamDataHandler> get_data_handler() = 0;
+    virtual TcpStreamDataHandler* get_data_handler() = 0;
 };
 
 }

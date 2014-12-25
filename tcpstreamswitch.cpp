@@ -32,13 +32,32 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
 
     if (tcp_datagram.header.fin_flag)
     {
-        _data_handlers.erase(tcp_stream_id);
-        _data_handlers.erase(tcp_stream_id.inverse());
+        map<TcpStreamId, TcpStreamDataHandler*>::iterator it = _data_handlers.find(tcp_stream_id);
+        if (it != _data_handlers.end())
+        {
+            delete _data_handlers[tcp_stream_id];
+            _data_handlers.erase(tcp_stream_id);
+        }
+
+        it = _data_handlers.find(tcp_stream_id.inverse());
+        if (it != _data_handlers.end())
+        {
+            delete _data_handlers[tcp_stream_id.inverse()];
+            _data_handlers.erase(tcp_stream_id.inverse());
+        }
+
         return;
     }
 
     if (tcp_datagram.header.syn_flag)
     {
+        map<TcpStreamId, TcpStreamDataHandler*>::iterator it = _data_handlers.find(tcp_stream_id);
+        if (it != _data_handlers.end())
+        {
+            delete _data_handlers[tcp_stream_id];
+            _data_handlers.erase(tcp_stream_id);
+        }
+
         _data_handlers[tcp_stream_id] = _data_handler_factory->get_data_handler();
         _data_handlers[tcp_stream_id]->set_seq(tcp_datagram.header.seq_number + 1);
         return;
@@ -47,7 +66,7 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
     if (tcp_datagram.data.empty())
         return;
 
-    unordered_map<TcpStreamId, shared_ptr<TcpStreamDataHandler> >::iterator it = _data_handlers.find(tcp_stream_id);
+    map<TcpStreamId, TcpStreamDataHandler*>::iterator it = _data_handlers.find(tcp_stream_id);
     if (it != _data_handlers.end())
     {
         TcpStreamDataHandler& data_handler = *(it->second);

@@ -13,6 +13,7 @@ public:
     ~UrlEjector();
 
     void eject(string& header);
+    vector<string> urls;
 };
 
 }

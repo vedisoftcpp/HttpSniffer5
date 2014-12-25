@@ -41,9 +41,9 @@ public:
 
     }
 
-    shared_ptr<TcpStreamDataHandler> get_data_handler()
+    TcpStreamDataHandler* get_data_handler()
     {
-        return shared_ptr<TcpStreamDataHandler>(new FakeDataHandler);
+        return new FakeDataHandler;
     }
 };
 

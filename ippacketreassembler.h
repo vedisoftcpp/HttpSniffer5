@@ -16,7 +16,7 @@ public:
     IpPacket reassemble(const IpPacket& ip_packet);
 
 private:
-    unordered_map<uint32_t, vector<IpPacket> > _fragmented_packets;
+    map<uint32_t, vector<IpPacket> > _fragmented_packets;
 };
 
 }

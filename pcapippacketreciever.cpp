@@ -26,7 +26,7 @@ void PcapIpPacketReciever::init()
     /* Retrieve the device list */
 
     //if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL, &alldevs, errbuf) == -1)
-    if (pcap_findalldevs(&alldevs, errbuf) == -1)
+    if (::pcap_findalldevs(&alldevs, errbuf) == -1)
     {
         fprintf(stderr,"Error in pcap_findalldevs: %s\n", errbuf);
         exit(1);

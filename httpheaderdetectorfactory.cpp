@@ -4,7 +4,8 @@
 namespace HttpSniffer
 {
 
-HttpHeaderDetectorFactory::HttpHeaderDetectorFactory()
+HttpHeaderDetectorFactory::HttpHeaderDetectorFactory(vector<string>& urls) :
+    _urls(&urls)
 {
 }
 
@@ -13,10 +14,10 @@ HttpHeaderDetectorFactory::~HttpHeaderDetectorFactory()
 
 }
 
-shared_ptr<TcpStreamDataHandler> HttpHeaderDetectorFactory::get_data_handler()
+TcpStreamDataHandler* HttpHeaderDetectorFactory::get_data_handler()
 {
     //return make_shared<HttpHeaderDetector>();
-    return shared_ptr<TcpStreamDataHandler>(new HttpHeaderDetector);
+    return new HttpHeaderDetector(*_urls);
 }
 
 }

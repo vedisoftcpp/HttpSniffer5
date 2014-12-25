@@ -48,7 +48,7 @@ IpPacket IpPacketReassembler::reassemble(const IpPacket& ip_packet)
 //        throw broken_ip_packet_exception;
 
     // have all ip-packets was recived
-    unordered_map<uint32_t, vector<IpPacket> >::iterator it = _fragmented_packets.find(ip_packet.header.id);
+    map<uint32_t, vector<IpPacket> >::iterator it = _fragmented_packets.find(ip_packet.header.id);
     if (it == _fragmented_packets.end())
     {
         // there aren't ip-packet with same id in buffer

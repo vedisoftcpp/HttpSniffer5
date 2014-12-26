@@ -5,7 +5,7 @@
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += \ #main.cpp \
+SOURCES += main.cpp \
     ippacketreassembler.cpp \
     ippacketreciever.cpp \
     tcpstreamswitch.cpp \
@@ -34,7 +34,9 @@ HEADERS += \
     pcapippacketreciever.h \
     urlejector.h \
     Exceptions/ippacketreassemblerexcetions.h \
-    tcpdatagrambuffer.h
+    tcpdatagrambuffer.h \
+    Containers/timing_vector.hpp \
+    Containers/timing_map.hpp
 
 #win32 {
 #INCLUDEPATH += $$PWD/../../Local/Include

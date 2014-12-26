@@ -3,6 +3,7 @@
 
 #include "headers.h"
 #include "Models/ippacket.h"
+#include "Containers/timing_map.hpp"
 
 namespace HttpSniffer
 {

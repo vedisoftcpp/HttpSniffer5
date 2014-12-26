@@ -23,6 +23,7 @@ void HttpHeaderDetector::process_data(const vector<uint8_t>& data)
         _urls->insert(_urls->end(),
                       _url_ejector.urls.begin(),
                       _url_ejector.urls.end());
+        _url_ejector.urls.clear();
     }
 }
 

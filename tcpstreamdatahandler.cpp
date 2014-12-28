@@ -6,7 +6,8 @@ namespace HttpSniffer
 size_t TcpStreamDataHandler::counter = 0;
 
 TcpStreamDataHandler::TcpStreamDataHandler() :
-    _id(counter++)
+    _id(counter++),
+    _was_syn(false)
 {
 }
 

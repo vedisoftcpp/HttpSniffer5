@@ -32,6 +32,8 @@ void PcapIpPacketReciever::init()
         exit(1);
     }
 
+    printf("0. pcap-file\n");
+
     /* Print the list */
     for(d=alldevs; d; d=d->next)
     {
@@ -42,17 +44,17 @@ void PcapIpPacketReciever::init()
             printf(" (No description available)\n");
     }
 
-    if(i==0)
-    {
-        printf("\nNo interfaces found! Make sure WinPcap is installed.\n");
-        return;
-    }
+//    if(i==0)
+//    {
+//        printf("\nNo interfaces found! Make sure WinPcap is installed.\n");
+//        return;
+//    }
 
-    printf("Enter the interface number (1-%d):",i);
+    printf("Enter the interface number (0-%d):",i);
     //scanf_s("%d", &inum);
     scanf("%d", &inum);
 
-    if(inum < 1 || inum > i)
+    if(inum < 0 || inum > i)
     {
         printf("\nInterface number out of range.\n");
         /* Free the device list */
@@ -60,8 +62,49 @@ void PcapIpPacketReciever::init()
         return;
     }
 
-    /* Jump to the selected adapter */
-    for(d=alldevs, i=0; i< inum-1 ;d=d->next, i++);
+
+    bpf_u_int32 mask;		/* The netmask of our sniffing device */
+    bpf_u_int32 net;		/* The IP of our sniffing device */
+
+    char filename[256];
+    if (inum > 0)
+    {
+
+        /* Jump to the selected adapter */
+        for(d=alldevs, i=0; i< inum-1 ;d=d->next, i++);
+
+        if ( (_adhandle= pcap_open_live(d->name, 65536, 1, 1000, errbuf)) == NULL)
+        {
+            fprintf(stderr,"\nUnable to open the adapter. %s is not supported by WinPcap\n");
+            /* Free the device list */
+            pcap_freealldevs(alldevs);
+            return;
+        }
+
+        if (pcap_lookupnet(d->name, &net, &mask, errbuf) == -1) {
+                 fprintf(stderr, "Can't get netmask for device %s\n", d->name);
+                 net = 0;
+                 mask = 0;
+             }
+
+        pcap_freealldevs(alldevs);
+    }
+    else // inum == 0
+    {
+        printf("Enter pcap filename: ");
+        scanf("%s", filename);
+
+        //printf("filename test: %s\n", filename);
+
+        if ( (_adhandle = pcap_open_offline(filename, errbuf)) == NULL)
+        {
+            fprintf(stderr,"\nUnable to open the pcap-file.\n");
+            /* Free the device list */
+            return;
+        }
+
+        mask = 0;
+    }
 
     /* Open the adapter */
     //if ( (_adhandle= pcap_open(d->name,  // name of the device
@@ -72,30 +115,32 @@ void PcapIpPacketReciever::init()
 //                              NULL,      // remote authentication
 //                              errbuf     // error buffer
 //                              ) ) == NULL)
-    if ( (_adhandle= pcap_open_live(d->name, 65536, 1, 1000, errbuf)) == NULL)
-    {
-        fprintf(stderr,"\nUnable to open the adapter. %s is not supported by WinPcap\n");
-        /* Free the device list */
-        pcap_freealldevs(alldevs);
-        return;
-    }
 
-    /* Check the link layer. We support only Ethernet for simplicity. */
-    if(pcap_datalink(_adhandle) != DLT_EN10MB)
-    {
-        fprintf(stderr,"\nThis program works only on Ethernet networks.\n");
-        /* Free the device list */
-        pcap_freealldevs(alldevs);
-        return;
-    }
+//    if ( (_adhandle= pcap_open_live(d->name, 65536, 1, 1000, errbuf)) == NULL)
+//    {
+//        fprintf(stderr,"\nUnable to open the adapter. %s is not supported by WinPcap\n");
+//        /* Free the device list */
+//        pcap_freealldevs(alldevs);
+//        return;
+//    }
 
-    bpf_u_int32 mask;		/* The netmask of our sniffing device */
-    bpf_u_int32 net;		/* The IP of our sniffing device */
-    if (pcap_lookupnet(d->name, &net, &mask, errbuf) == -1) {
-             fprintf(stderr, "Can't get netmask for device %s\n", d->name);
-             net = 0;
-             mask = 0;
-         }
+//    /* Check the link layer. We support only Ethernet for simplicity. */
+//    if(pcap_datalink(_adhandle) != DLT_EN10MB)
+//    {
+//        fprintf(stderr,"\nThis program works only on Ethernet networks.\n");
+//        /* Free the device list */
+//        pcap_freealldevs(alldevs);
+//        return;
+//    }
+
+//    bpf_u_int32 mask;		/* The netmask of our sniffing device */
+//    bpf_u_int32 net;		/* The IP of our sniffing device */
+//    if (pcap_lookupnet(d->name, &net, &mask, errbuf) == -1) {
+//             fprintf(stderr, "Can't get netmask for device %s\n", d->name);
+//             net = 0;
+//             mask = 0;
+//         }
+
 //    std::cout << "mask: " << mask << "\n";
 
 //    if(d->addresses != NULL)
@@ -116,7 +161,7 @@ void PcapIpPacketReciever::init()
     {
         fprintf(stderr,"\nUnable to compile the packet filter. Check the syntax.\n");
         /* Free the device list */
-        pcap_freealldevs(alldevs);
+        //pcap_freealldevs(alldevs);
         return;
     }
 
@@ -125,14 +170,14 @@ void PcapIpPacketReciever::init()
     {
         fprintf(stderr,"\nError setting the filter.\n");
         /* Free the device list */
-        pcap_freealldevs(alldevs);
+        //pcap_freealldevs(alldevs);
         return;
     }
 
-    printf("\nlistening on %s...\n", d->description);
+    //printf("\nlistening on %s...\n", d->description);
 
     /* At this point, we don't need any more the device list. Free it */
-    pcap_freealldevs(alldevs);
+    //pcap_freealldevs(alldevs);
 }
 
 IpPacket PcapIpPacketReciever::get_ip_packet()
@@ -145,7 +190,42 @@ IpPacket PcapIpPacketReciever::get_ip_packet()
         if(res == 1)
             break;
     }
+    if (res == -2)
+    {
+        pcap_close(_adhandle);
+        prepare_to_process_file();
+        //init();
+    }
     return IpPacket((void*)(pkt_data + 14));
+}
+
+void PcapIpPacketReciever::prepare_to_process_file()
+{
+    char errbuf[PCAP_ERRBUF_SIZE];
+    char packet_filter[] = "ip";
+    struct bpf_program fcode;
+    char filename[256];
+
+    printf("Enter new pcap filename: ");
+    scanf("%s", filename);
+
+    if ( (_adhandle = pcap_open_offline(filename, errbuf)) == NULL)
+    {
+        fprintf(stderr,"\nUnable to open the pcap-file.\n");
+        return;
+    }
+
+    if (pcap_compile(_adhandle, &fcode, packet_filter, 1, 0) <0 )
+    {
+        fprintf(stderr,"\nUnable to compile the packet filter. Check the syntax.\n");
+        return;
+    }
+
+    if (pcap_setfilter(_adhandle, &fcode)<0)
+    {
+        fprintf(stderr,"\nError setting the filter.\n");
+        return;
+    }
 }
 
 }

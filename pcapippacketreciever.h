@@ -18,6 +18,8 @@ public:
 
 private:
     pcap_t* _adhandle;
+
+    void prepare_to_process_file();
 };
 
 }

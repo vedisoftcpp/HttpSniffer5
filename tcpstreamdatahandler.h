@@ -19,10 +19,14 @@ public:
     size_t id() const { return _id; }
     void set_seq(uint32_t seq) { _tcp_datagram_buffer.set_seq(seq); }
 
+    void set_syn() { _was_syn = true; }
+    bool was_syn() const { return _was_syn; }
+
 private:
     TcpDatagramBuffer _tcp_datagram_buffer;
     size_t _id;
     static size_t counter;
+    bool _was_syn;
 };
 
 }

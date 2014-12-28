@@ -85,7 +85,6 @@ void TcpStreamSwitch::process_ip_packet(const IpPacket& ip_packet)
     }
     else
     {
-        //std::cout << "test\n";
         _data_handlers[tcp_stream_id] = _data_handler_factory->get_data_handler();
         _data_handlers[tcp_stream_id]->set_seq(tcp_datagram.header.seq_number);
         _data_handlers[tcp_stream_id]->process(tcp_datagram);
